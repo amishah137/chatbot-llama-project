@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>ChatBot</title>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body align=center>
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4"><legend><h1>ChatBot</h1></legend></div>
+			<div class="col-md-4"></div>
+		</div>
+			<br>
+			<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<form class="form-horizontal" method="post">
+					<div class="form-group">
+						<label class="control-label col-xs-3" for="Query">Q :</label>
+						<div class="col-xs-7">
+							<input type="text" class="form-control" name="Query" id ="reset" value="{{ request.form['Query'] }}" placeholder="">
+						</div>
+					</div>
+					<!--
+					<div class="form-group">
+                        <div class="col-xs-offset-3 col-xs-6">
+                            <input type="submit" class="btn btn-success" value="Submit">
+                        </div>
+                        <div class="col-xs-1">
+                            <input type="reset" class="btn btn-danger" value="Reset">
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="button" class="btn btn-danger" value="Sync" onclick="syncForm()">
+                        </div>
+                    </div>
+                    -->
+					
+					<div class="form-group">
+            			<div class="col-xs-offset-3 col-xs-9">
+                			<input type="submit" class="btn btn-success" value="Submit">
+                			<input type="reset" id ="reset" class="btn btn-danger" value="Reset">
+                			<input type="button" class="btn btn-danger" value="Sync" id="sync-button"> 
+            			</div>
+					</div>
+					<div class="form-group">
+                        <label class="control-label col-xs-3">A :</label>
+                        <div class="col-xs-7">
+                            <textarea name="result" class="form-control" id="result" placeholder="{{entry}}" rows="5"></textarea>
+                        </div>
+                    </div> 
+					<!--
+					<div class="form-group">
+						<label class="control-label col-xs-3">A :</label>
+						<div class="col-xs-7">
+							<input type="text" name="result" class="form-control" placeholder={{ entry }}>
+						</div>
+					</div>
+					-->
+        		</form>
+        	</div>
+        	<div class="col-md-4"></div></div>
+		</div>
+		<script>
+        document.getElementById("sync-button").addEventListener("click", function () {
+            // Get the value from the 'Query' input
+            var queryValue = document.querySelector("input[name='Query']").value;
+    
+            // Send an AJAX request to the server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/sync", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Handle the response from the server, if needed
+                    console.log(xhr.responseText);
+                }
+            };
+    
+            // Prepare the data to send to the server
+            var data = JSON.stringify({ query: queryValue });
+    
+            // Send the request
+            xhr.send(data);
+        });
+    </script>
+	</body>
+</html>
